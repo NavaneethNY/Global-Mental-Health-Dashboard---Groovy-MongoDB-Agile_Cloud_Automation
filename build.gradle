@@ -1,0 +1,67 @@
+plugins {
+    id 'groovy'
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Core Groovy + MongoDB + Logging
+    implementation 'org.codehaus.groovy:groovy-all:3.0.21'
+    implementation 'org.mongodb:mongodb-driver-sync:4.9.0'
+    implementation 'org.slf4j:slf4j-nop:2.0.9'
+
+    // Data visualization and parsing
+    implementation 'org.jfree:jfreechart:1.5.4'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.0'
+
+    // Web framework + JSON API
+    implementation 'com.sparkjava:spark-core:2.9.4'
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+    implementation 'org.codehaus.gpars:gpars:1.2.1'
+
+}
+
+application {
+    
+    mainClass = 'DashboardServer'
+}
+
+//
+// ─── INDIVIDUAL RUN TASKS ───────────────────────────────────────────────
+//
+
+// Groovy local analysis (query1.groovy)
+tasks.register('runLocalQuery', JavaExec) {
+    group = 'application'
+    description = 'Runs the local Groovy JSON analysis (query1.groovy)'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass.set('query1')
+}
+
+// MongoDB aggregation pipeline (mongo_query.groovy)
+tasks.register('runMongoQuery', JavaExec) {
+    group = 'application'
+    description = 'Runs the MongoDB aggregation query (mongo_query.groovy)'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass.set('mongo_query')
+}
+
+// Combined Groovy analysis (QueryScalabilityLocal.groovy)
+tasks.register('runGroovyScalability', JavaExec) {
+    group = 'application'
+    description = 'Runs the combined Groovy scalability analysis (QueryScalabilityLocal.groovy)'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass.set('QueryScalabilityLocal')
+}
+
+// Java scalability visualization (ScalabilityComparison.java)
+tasks.register('runJavaScalability', JavaExec) {
+    group = 'application'
+    description = 'Runs the Java scalability visualization (ScalabilityComparison.java)'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass.set('ScalabilityComparison')
+}
